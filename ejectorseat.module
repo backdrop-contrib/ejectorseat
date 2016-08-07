@@ -14,9 +14,10 @@ function ejectorseat_menu() {
   $items['admin/config/people/ejectorseat'] = array(
     'title' => 'Ejector Seat settings',
     'description' => 'Configure Ejector Seat options.',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('ejectorseat_settings'),
     'access arguments' => array('administer site configuration'),
+    'file' => 'ejectorseat.admin.inc',
   );
   $items['ejectorseat/check'] = array(
     'page callback' => 'ejectorseat_check',
@@ -31,15 +32,15 @@ function ejectorseat_menu() {
  */
 function ejectorseat_init() {
   global $user;
-  if ($user->uid > 0 && (int) variable_get('ejectorseat_interval', 60)) {
-    drupal_add_js(array(
+  if ($user->uid > 0 && (int) config_get('ejectorseat.settings', 'ejectorseat_interval')) {
+    backdrop_add_js(array(
       'ejectorSeat' => array(
-        'interval' => variable_get('ejectorseat_interval', 60),
+        'interval' => config_get('ejectorseat.settings', 'ejectorseat_interval'),
         'url' => url('ejectorseat/check'),
-        'ignoreFocus' => variable_get('ejectorseat_background', 0) ? TRUE : FALSE,
+        'ignoreFocus' => config_get('ejectorseat.settings', 'ejectorseat_background') ? TRUE : FALSE,
       ),
     ), array('type' => 'setting', 'scope' => JS_DEFAULT));
-    drupal_add_js(drupal_get_path('module', 'ejectorseat') . '/ejectorseat.js');
+    backdrop_add_js(backdrop_get_path('module', 'ejectorseat') . '/ejectorseat.js');
   }
 }
 
@@ -53,29 +54,4 @@ function ejectorseat_init() {
 function ejectorseat_check() {
   global $user;
   print $user->uid == 0 ? 0 : 1;
-}
-
-/**
- * Form Builder; Admin settings form.
- */
-function ejectorseat_settings($form, &$form_state) {
-  $form = array();
-  $period = array(0 => t('disable')) + drupal_map_assoc(array(15, 30, 60, 120, 180, 300, 600, 1200, 1800, 3600), 'format_interval');
-  $form['ejectorseat_interval'] = array(
-    '#type' => 'select',
-    '#title' => t('AJAX check rate'),
-    '#options' => $period,
-    '#description' => t("How often should Ejector Seat check to see if a user has been logged out? Lower rates may affect site performance."),
-    '#default_value' => variable_get('ejectorseat_interval', 60),
-  );
-  $form['ejectorseat_background'] = array(
-    '#type' => 'radios',
-    '#title' => t('Run AJAX check in background'),
-    '#options' => array(
-      0 => t('<strong>FALSE:</strong> Only run the AJAX check when the browser window or tab is active. (better performance)'),
-      1 => t('<strong>TRUE:</strong> Run the AJAX check even if the browser window or tab is in the background. (better security, CONSIDERABLY worse performance)'),
-    ),
-    '#default_value' => variable_get('ejectorseat_background', 0),
-  );
-  return system_settings_form($form);
 }
