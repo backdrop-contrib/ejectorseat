@@ -12,8 +12,8 @@ function ejectorseat_menu() {
   $items = array();
 
   $items['admin/config/people/ejectorseat'] = array(
-    'title' => 'Ejector Seat settings',
-    'description' => 'Configure Ejector Seat options.',
+    'title' => 'Ejector Seat',
+    'description' => 'Manage the interval to verify session status.',
     'page callback' => 'backdrop_get_form',
     'page arguments' => array('ejectorseat_settings'),
     'access arguments' => array('administer site configuration'),
@@ -54,4 +54,13 @@ function ejectorseat_init() {
 function ejectorseat_check() {
   global $user;
   print $user->uid == 0 ? 0 : 1;
+}
+
+/**
+ * Implements hook_autologout_prevent().
+ */
+function ejectorseat_autologout_prevent() {
+  if (arg(0) == 'ejectorseat' && arg(1) == 'check') {
+    return TRUE;
+  }
 }
