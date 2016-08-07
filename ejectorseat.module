@@ -6,13 +6,25 @@
  */
 
 /**
+ * Implements hook_config_info();
+ */
+function ejectorseat_config_info() {
+  $prefixes = array();
+  $prefixes['ejectorseat.settings'] = array(
+    'group' => t('Configuration'),
+    'label' => t('Ejector seat settings'),
+  );
+  return $prefixes;
+}
+
+/**
  * Implements hook_menu().
  */
 function ejectorseat_menu() {
   $items = array();
 
   $items['admin/config/people/ejectorseat'] = array(
-    'title' => 'Ejector Seat',
+    'title' => 'Ejector seat',
     'description' => 'Manage the interval to verify session status.',
     'page callback' => 'backdrop_get_form',
     'page arguments' => array('ejectorseat_settings'),

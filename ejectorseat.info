@@ -1,4 +1,4 @@
-name = Ejector Seat
+name = Ejector seat
 description = "Reloads the current page if a user's session has ended, logging them out, and ejecting them from the site."
 type = module
 backdrop = 1.x
