@@ -1,9 +1,7 @@
 Ejector Seat
 ============
 
-A Backdrop module to immediately log out (eject) a user whose session has ended.
-
-Ejector Seat provides some Javascript (ajax) code which checks periodically to see if a user is still logged in. If the user is NOT logged in, the current page is reloaded so that the user sees the page as an anonymous user.
+Use Javascript (ajax) code to check periodically to see if a user is still logged in. If the user is NOT logged in, the current page is reloaded so that the user sees the page as an anonymous user.
 
 This module will usually be used with either [Session Limit](https://github.com/backdrop-contrib/session_limit) or [Automated Logout](https://github.com/backdrop-contrib/autologout) in order to reload the current page for users who have been automatically logged out by logging in at another location.
 
