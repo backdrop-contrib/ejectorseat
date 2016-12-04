@@ -1,0 +1,5 @@
+[EjectorSeatTestCase]
+name = Ejector seat
+description = Check various parts of Ejector seat.
+group = Ejector seat
+file = ejectorseat.test

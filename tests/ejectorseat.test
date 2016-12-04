@@ -1,0 +1,25 @@
+<?php
+/**
+ * @file
+ * Tests for Ejector seat.
+ */
+
+/**
+ * Functional tests for Ejector seat.
+ */
+class EjectorSeatTestCase extends BackdropWebTestCase {
+  public function setUp() {
+    parent::setUp('ejectorseat');
+    $this->admin_user = $this->backdropCreateUser(array('administer site configuration'));
+  }
+
+  function testEjectorSeat() {
+    $this->backdropLogin($this->admin_user);
+
+    $this->backdropGet('admin/config/people/ejectorseat');
+    $this->assertFieldByXPath("//select[@id='edit-ejectorseat-interval']", NULL, 'AJAX check rate field exists.');
+    $this->assertFieldByXPath("//input[@id='edit-ejectorseat-background-0' and @type='radio']", NULL, 'Check in background false field is present.');
+    $this->assertFieldByXPath("//input[@id='edit-ejectorseat-background-1' and @type='radio']", NULL, 'Check in background true field is present.');
+    $this->assertFieldByXPath("//input[@id='edit-submit' and @name='op']", NULL, 'Save configuration button is present.');
+  }
+}
