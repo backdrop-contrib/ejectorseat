@@ -14,7 +14,7 @@ In order to improve performance, the ajax callback (and associated Backdrop boot
 Current Maintainer
 ------------------
 
-- David Norman (https://github.com/deekayen)
+- None
 
 Credits
 -------
